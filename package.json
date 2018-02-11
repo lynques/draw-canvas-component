@@ -10,7 +10,7 @@
     "build": "webpack",
     "pretest": "tslint src/**/*.ts{,x} -t verbose",
     "start": "webpack-dev-server --open",
-    "test": "echo \"TODO: tests not yet implemented\" && exit 1",
+    "test": "karma start karma.conf.js",
     "watch": "webpack --watch"
   },
   "keywords": [
@@ -20,8 +20,17 @@
   "author": "Aaron Romel",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^2.8.6",
+    "awesome-typescript-loader": "^3.4.1",
+    "jasmine": "^3.0.0",
+    "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.9",
     "ts-loader": "^3.5.0",
     "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.6.0",
     "typescript": "^2.7.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.11.1"
