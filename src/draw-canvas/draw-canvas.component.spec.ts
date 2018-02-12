@@ -2,16 +2,12 @@ import { DrawCanvas } from './draw-canvas.component';
 
 describe('DrawCanvas', () => {
   let component: DrawCanvas;
-  
+
   beforeEach(() => {
-    component = <DrawCanvas>document.createElement('draw-canvas');
+    component = document.createElement('draw-canvas') as DrawCanvas;
   });
-  
+
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-  
-  describe('attributeChangedCallback', () => {
-    
   });
 });

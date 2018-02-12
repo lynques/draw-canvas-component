@@ -1,5 +1,5 @@
 export class DrawCanvas extends HTMLElement {
-  
+
   private _height: number;
   private _width: number;
   private canvas: HTMLCanvasElement;
