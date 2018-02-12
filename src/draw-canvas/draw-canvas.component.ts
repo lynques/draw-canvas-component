@@ -28,7 +28,7 @@ export class DrawCanvas extends HTMLElement {
   }
 
   private attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
-    switch(name) {
+    switch (name) {
       case 'width':
         this._width = parseInt(newVal, 10) || 0;
         if (this.canvas) {
@@ -55,9 +55,9 @@ export class DrawCanvas extends HTMLElement {
     this.init();
   }
 
-  // disconnectedCallback(): void {
-  // }
-
+  /**
+   * Initialize canvas and 2d context
+   */
   private init(): void {
     this.canvas = this.querySelector('canvas');
     this.ctx = this.canvas.getContext('2d');
@@ -67,6 +67,10 @@ export class DrawCanvas extends HTMLElement {
     this.canvas.addEventListener('mouseup', this.mouseUp.bind(this));
   }
 
+  /**
+   * Handle mousedown events on canvas element
+   * @param {MouseEvent} e the mouse event object
+   */
   private handleMouseDown(e: MouseEvent): void {
     const posX = e.offsetX;
     const posY = e.offsetY;
@@ -75,6 +79,10 @@ export class DrawCanvas extends HTMLElement {
     this.ctx.moveTo(posX, posY);
   }
 
+  /**
+   * Handle mousemove events on canvas element - does the drawing part
+   * @param {MouseEvent} e the mouse event object
+   */
   private handleMouseMove(e: MouseEvent): void {
     if (this.drawing) {
       const posX = e.offsetX;
@@ -84,6 +92,9 @@ export class DrawCanvas extends HTMLElement {
     }
   }
 
+  /**
+   * Handle mouseup events on canvas element - stop drawing
+   */
   private mouseUp(): void {
     this.drawing = false;
   }
