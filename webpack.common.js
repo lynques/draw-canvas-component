@@ -1,9 +1,11 @@
 const path = require('path');
-const debug = process.env.NODE_ENV !== 'production';
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
-  devtool: debug ? 'inline-source-map' : false,
+  plugins: [
+    new CleanWebpackPlugin(['dist'])
+  ],
   module: {
     rules: [
       {
