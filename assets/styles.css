@@ -1,0 +1,7 @@
+draw-canvas {
+    border-radius: 5px;
+    border: 1px solid black;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 0);
+}
