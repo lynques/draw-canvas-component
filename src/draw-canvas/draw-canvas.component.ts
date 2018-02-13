@@ -24,7 +24,7 @@ export class DrawCanvas extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['dynamic', 'width', 'height'];
+    return ['height', 'width'];
   }
 
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
