@@ -1,8 +1,3 @@
-function init(): void {
-  const body = document.querySelector('body');
-  const helloWorld = document.createElement('h1');
-  helloWorld.innerHTML = 'Hello World';
-  body.appendChild(helloWorld);
-}
+import { DrawCanvas } from './draw-canvas/draw-canvas.component';
 
-window.addEventListener('load', init);
+customElements.define('draw-canvas', DrawCanvas);
