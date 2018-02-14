@@ -4,6 +4,7 @@
 [//]: # ([![NPM Version][npm-image]][npm-url])
 [//]: # ([![Build Status][travis-image]][travis-url])
 [//]: # ([![Downloads Stats][npm-downloads]][npm-url])
+[![CircleCI](https://circleci.com/gh/lynques/draw-canvas/tree/master.svg?style=svg)](https://circleci.com/gh/lynques/draw-canvas/tree/master)
 
 Draw Canvas is a work-in-progress custom element to implement drawing functionality using the mouse 
 on an HTML Canvas element.
