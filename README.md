@@ -33,6 +33,19 @@ Add a draw-canvas tag to your markup, providing width and height attributes
 <draw-canvas width="800" height="600"></draw-canvas>
 ```
 
+## Browser Support
+Custom elements are not supported by all browsers (https://caniuse.com/#feat=custom-elements). There are polyfills available if
+support for these browsers is required.
+
+Installing polyfill:
+```sh
+npm install @webcomponents/custom-elements --save
+```
+
+Add polyfill as script tag:
+```html
+<script src="node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
+```
 
 ## Development setup
 
