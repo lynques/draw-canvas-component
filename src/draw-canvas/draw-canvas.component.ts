@@ -15,6 +15,7 @@ export class DrawCanvas extends HTMLElement {
     this.drawing = false;
   }
 
+  /* set attribute properties */
   set width(val: string) {
     this.setAttribute('width', val);
   }
@@ -27,6 +28,7 @@ export class DrawCanvas extends HTMLElement {
     return ['height', 'width'];
   }
 
+  /* custom element lifecycle methods */
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
       case 'width':

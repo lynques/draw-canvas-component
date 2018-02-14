@@ -1,6 +1,6 @@
 {
   "name": "draw-canvas",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Custom Webcomponent with built in canvas drawing functionality",
   "main": "src/index.js",
   "files": [
@@ -10,8 +10,9 @@
     "build": "webpack --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js",
     "pretest": "tslint src/**/*.ts{,x} -t verbose",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "start": "webpack-dev-server --open --hot --output-public-path=/dist/ --config webpack.dev.js",
     "test": "karma start karma.conf.js",
+    "test:once": "npm run pretest && karma start karma.conf.js --single-run",
     "watch": "webpack --watch --config webpack.dev.js"
   },
   "keywords": [
