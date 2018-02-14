@@ -1,9 +1,9 @@
-# Draw Canvas
+# Draw Canvas Component
 > An HTML Custom Element for drawing.
 
-[//]: # ([![NPM Version][npm-image]][npm-url])
 [//]: # ([![Build Status][travis-image]][travis-url])
 [//]: # ([![Downloads Stats][npm-downloads]][npm-url])
+[![NPM Version][npm-image]][npm-url]
 [![CircleCI](https://circleci.com/gh/lynques/draw-canvas/tree/master.svg?style=svg)](https://circleci.com/gh/lynques/draw-canvas/tree/master)
 
 Draw Canvas is a work-in-progress custom element to implement drawing functionality using the mouse 
@@ -16,13 +16,13 @@ on an HTML Canvas element.
 npm:
 
 ```sh
-npm install draw-canvas --save
+npm install draw-canvas-component --save
 ```
 
 ## Usage
 Register the draw-canvas custom element by pulling in the bundle.js script from node modules.
 ```html
-<script src="node_modules/lynqyes/draw-canvas/dist/bundle.js"></script>
+<script src="node_modules/lynqyes/draw-canvas-component/dist/bundle.js"></script>
 ```
 
 Add a draw-canvas tag to your markup, providing width and height attributes
@@ -66,15 +66,15 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 ## Contributing
 
-1. Fork it (<https://github.com/lynques/draw-canvas/fork>)
+1. Fork it (<https://github.com/lynques/draw-canvas-component/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
+[npm-image]: https://img.shields.io/npm/v/draw-canvas-component.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/draw-canvas-component
 [npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
