@@ -1,5 +1,6 @@
 {
   "name": "draw-canvas",
+  "repository": "https://github.com/lynques/draw-canvas",
   "version": "1.0.0",
   "description": "Custom Webcomponent with built in canvas drawing functionality",
   "main": "src/index.js",
@@ -16,11 +17,11 @@
     "watch": "webpack --watch --config webpack.dev.js"
   },
   "keywords": [
-    "webcomponent",
+    "custom element",
     "canvas"
   ],
   "author": "Aaron Romel",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
     "awesome-typescript-loader": "^3.4.1",
