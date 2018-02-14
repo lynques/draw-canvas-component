@@ -22,7 +22,7 @@ npm install draw-canvas-component --save
 ## Usage
 Register the draw-canvas custom element by pulling in the bundle.js script from node modules.
 ```html
-<script src="node_modules/lynqyes/draw-canvas-component/dist/bundle.js"></script>
+<script src="node_modules/draw-canvas-component/dist/bundle.js"></script>
 ```
 
 Add a draw-canvas tag to your markup, providing width and height attributes
