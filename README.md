@@ -9,6 +9,8 @@
 Draw Canvas is a work-in-progress custom element to implement drawing functionality using the mouse 
 on an HTML Canvas element.
 
+> [Try Demo](https://lynques.github.io/draw-canvas-component/)
+
 [//]: # (image will go here)
 
 ## Installation
