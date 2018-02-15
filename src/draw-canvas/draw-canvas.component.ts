@@ -2,6 +2,8 @@ export class DrawCanvas extends HTMLElement {
 
   private _height: number;
   private _width: number;
+  private _strokeWeight: number;
+  private _strokeColor: string;
   private canvas: HTMLCanvasElement;
   private ctx: any;
   private drawing: boolean;
@@ -10,6 +12,8 @@ export class DrawCanvas extends HTMLElement {
     super();
     this._height = null;
     this._width = null;
+    this._strokeColor = '#000';
+    this._strokeWeight = 1;
     this.canvas = null;
     this.ctx = null;
     this.drawing = false;
@@ -23,9 +27,17 @@ export class DrawCanvas extends HTMLElement {
   set height(val: string) {
     this.setAttribute('height', val);
   }
+  
+  set strokeColor(val: string) {
+    this.setAttribute('stroke-color', val);
+  }
+  
+  set strokeWeight(val: string) {
+    this.setAttribute('stroke-weight', val);
+  }
 
   static get observedAttributes() {
-    return ['height', 'width'];
+    return ['height', 'width', 'stroke-color', 'stroke-weight'];
   }
 
   /* custom element lifecycle methods */
@@ -42,6 +54,12 @@ export class DrawCanvas extends HTMLElement {
         if (this.canvas) {
           this.canvas.height = this._height;
         }
+        break;
+      case 'stroke-color':
+        this._strokeColor = newVal;
+        break;
+      case 'stroke-weight':
+        this._strokeWeight = parseInt(newVal, 10) || 1;
         break;
     }
   }
@@ -77,6 +95,8 @@ export class DrawCanvas extends HTMLElement {
     const posX = e.offsetX;
     const posY = e.offsetY;
     this.drawing = true;
+    this.ctx.strokeStyle = this._strokeColor;
+    this.ctx.lineWidth = this._strokeWeight;
     this.ctx.beginPath();
     this.ctx.moveTo(posX, posY);
   }
@@ -99,5 +119,13 @@ export class DrawCanvas extends HTMLElement {
    */
   public mouseUp(): void {
     this.drawing = false;
+  }
+
+  /**
+   * Wipe the canvas
+   */
+  public clear(): void {
+    this.ctx.fillStyle = '#fff';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
