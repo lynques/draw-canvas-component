@@ -2,6 +2,8 @@ export class DrawCanvas extends HTMLElement {
 
   private _height: number;
   private _width: number;
+  private _strokeWeight: number;
+  private _strokeColor: string;
   private canvas: HTMLCanvasElement;
   private ctx: any;
   private drawing: boolean;
@@ -10,6 +12,8 @@ export class DrawCanvas extends HTMLElement {
     super();
     this._height = null;
     this._width = null;
+    this._strokeColor = '#000';
+    this._strokeWeight = 1;
     this.canvas = null;
     this.ctx = null;
     this.drawing = false;
@@ -24,8 +28,16 @@ export class DrawCanvas extends HTMLElement {
     this.setAttribute('height', val);
   }
 
+  set strokeColor(val: string) {
+    this.setAttribute('stroke-color', val);
+  }
+
+  set strokeWeight(val: string) {
+    this.setAttribute('stroke-weight', val);
+  }
+
   static get observedAttributes() {
-    return ['height', 'width'];
+    return ['height', 'width', 'stroke-color', 'stroke-weight'];
   }
 
   /* custom element lifecycle methods */
@@ -42,6 +54,13 @@ export class DrawCanvas extends HTMLElement {
         if (this.canvas) {
           this.canvas.height = this._height;
         }
+        break;
+      case 'stroke-color':
+        this._strokeColor = newVal;
+        break;
+      case 'stroke-weight':
+        const weight = parseInt(newVal, 10) || 1;
+        this._strokeWeight = weight < 1 ? 1 : weight;
         break;
     }
   }
@@ -65,8 +84,8 @@ export class DrawCanvas extends HTMLElement {
     this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    this.canvas.addEventListener('mouseout', this.mouseUp.bind(this));
-    this.canvas.addEventListener('mouseup', this.mouseUp.bind(this));
+    this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
+    this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
   }
 
   /**
@@ -77,6 +96,8 @@ export class DrawCanvas extends HTMLElement {
     const posX = e.offsetX;
     const posY = e.offsetY;
     this.drawing = true;
+    this.ctx.strokeStyle = this._strokeColor;
+    this.ctx.lineWidth = this._strokeWeight;
     this.ctx.beginPath();
     this.ctx.moveTo(posX, posY);
   }
@@ -97,7 +118,15 @@ export class DrawCanvas extends HTMLElement {
   /**
    * Handle mouseup events on canvas element - stop drawing
    */
-  public mouseUp(): void {
+  public handleMouseUp(): void {
     this.drawing = false;
+  }
+
+  /**
+   * Wipe the canvas
+   */
+  public clear(): void {
+    this.ctx.fillStyle = '#fff';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }
