@@ -27,11 +27,11 @@ export class DrawCanvas extends HTMLElement {
   set height(val: string) {
     this.setAttribute('height', val);
   }
-  
+
   set strokeColor(val: string) {
     this.setAttribute('stroke-color', val);
   }
-  
+
   set strokeWeight(val: string) {
     this.setAttribute('stroke-weight', val);
   }
