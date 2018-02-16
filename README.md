@@ -28,11 +28,28 @@ Register the draw-canvas custom element by pulling in the bundle.js script from 
 ```
 
 Add a draw-canvas tag to your markup, providing width and height attributes
+### Required Attributes
 - _width_ - Width in pixels of the drawing surface
 - _height_ - Height in pixels of the drawing surface
 
 ```html
 <draw-canvas width="800" height="600"></draw-canvas>
+```
+
+### Other Attributes
+- _strokeColor_ - Color of draw stroke
+- _strokeWeight_ - Thickness of draw stroke
+
+```javascript
+var drawCanvas = document.querySelector('draw-canvas');
+drawCanvas.strokeColor = '#f00';  // draw in red
+drawCanvas.strokeWeight = 3;      // 3px stroke weight
+```
+
+### Helper Methods
+- _clear_ - Clears canvas content
+```javascript
+drawCanvas.clear();
 ```
 
 ## Browser Support
@@ -90,7 +107,3 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/draw-canvas-component.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/draw-canvas-component
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
