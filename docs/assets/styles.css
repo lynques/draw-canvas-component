@@ -29,7 +29,9 @@ h1 {
 }
 
 input[type='button'] {
+    height: 35px;
     vertical-align: middle;
+    width: 100px;
 }
 
 .red-button {
