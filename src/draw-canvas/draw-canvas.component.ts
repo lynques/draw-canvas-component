@@ -59,7 +59,8 @@ export class DrawCanvas extends HTMLElement {
         this._strokeColor = newVal;
         break;
       case 'stroke-weight':
-        this._strokeWeight = parseInt(newVal, 10) || 1;
+        const weight = parseInt(newVal, 10) || 1;
+        this._strokeWeight = weight < 1 ? 1 : weight;
         break;
     }
   }
@@ -83,8 +84,8 @@ export class DrawCanvas extends HTMLElement {
     this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    this.canvas.addEventListener('mouseout', this.mouseUp.bind(this));
-    this.canvas.addEventListener('mouseup', this.mouseUp.bind(this));
+    this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
+    this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
   }
 
   /**
@@ -117,7 +118,7 @@ export class DrawCanvas extends HTMLElement {
   /**
    * Handle mouseup events on canvas element - stop drawing
    */
-  public mouseUp(): void {
+  public handleMouseUp(): void {
     this.drawing = false;
   }
 
