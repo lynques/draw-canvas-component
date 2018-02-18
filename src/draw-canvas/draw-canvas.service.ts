@@ -1,49 +1,38 @@
+import { DrawCanvas } from './draw-canvas.component';
+
 export class DrawCanvasService {
 
   private canvas: HTMLCanvasElement;
   private ctx: any;
-  private prevWrapperWidth: number = 0;
-  private prevWrapperHeight: number = 0;
-  private wrapper: HTMLElement;
+  private prevWidth: number = 0;
+  private prevHeight: number = 0;
+  private component: DrawCanvas;
 
-  constructor(_wrapperSelector: string, _canvas: HTMLCanvasElement, _ctx: any) {
-    this.wrapper = document.querySelector(_wrapperSelector);
+  constructor(_component: DrawCanvas, _canvas: HTMLCanvasElement, _ctx: any) {
+    this.component = _component;
     this.canvas = _canvas;
     this.ctx = _ctx;
-
-    if (!this.wrapper.style.overflow) {
-      this.wrapper.style.overflow = 'hidden';
-    }
-
     requestAnimationFrame(this.resize.bind(this));
   }
 
-  resize(): void {
-    const wrapperWidth = this.wrapper.clientWidth;
-    const wrapperHeight = this.wrapper.clientHeight;
-    if (wrapperWidth && wrapperHeight &&
-      (this.prevWrapperWidth - wrapperWidth < 0 || this.prevWrapperHeight - wrapperHeight < 0)) {
+  public size(): void {
+    this.prevWidth = this.component.clientWidth;
+    this.prevHeight = this.component.clientHeight;
+    this.canvas.width = this.prevWidth;
+    this.canvas.height = this.prevHeight;
+  }
+
+  private resize(): void {
+    if (this.prevWidth - this.component.clientWidth < 0 || this.prevHeight - this.component.clientHeight < 0) {
       let imageData: any;
-      if (this.canvas.width && this.canvas.height && this.prevWrapperWidth > 0) {
-        imageData = this.ctx.getImageData(0, 0, this.prevWrapperWidth, this.prevWrapperHeight);
+      if (this.prevWidth > 0) {
+        imageData = this.ctx.getImageData(0, 0, this.prevWidth, this.prevHeight);
       }
-      this.prevWrapperWidth = wrapperWidth;
-      this.prevWrapperHeight = wrapperHeight;
-      this.canvas.width = wrapperWidth;
-      this.canvas.height = wrapperHeight;
+      this.size();
       if (imageData) {
         this.ctx.putImageData(imageData, 0, 0);
       }
     }
     requestAnimationFrame(this.resize.bind(this));
-  }
-
-  clear(): void {
-    const wrapperWidth = this.wrapper.clientWidth;
-    const wrapperHeight = this.wrapper.clientHeight;
-    this.prevWrapperWidth = wrapperWidth;
-    this.prevWrapperHeight = wrapperHeight;
-    this.canvas.width = wrapperWidth;
-    this.canvas.height = wrapperHeight;
   }
 }

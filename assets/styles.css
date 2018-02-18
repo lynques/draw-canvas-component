@@ -14,7 +14,7 @@ body {
     transform: translate(-50%, 0);
 }
 
-.canvas-container {
+draw-canvas {
     width: 100%;
     height: 600px;
     border-radius: 5px;
@@ -22,9 +22,6 @@ body {
     left: 50%;
     overflow: scroll;
 }
-/* .canvas-container:hover {
-    overflow: scroll;
-} */
 
 h1 {
     font-family: sans-serif;
@@ -33,6 +30,7 @@ h1 {
 }
 
 .canvas-controls {
+    margin-top: 10px;
     text-align: center;
     width: 100%;
 }
