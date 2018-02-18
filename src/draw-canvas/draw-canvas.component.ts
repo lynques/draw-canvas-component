@@ -53,7 +53,6 @@ export class DrawCanvas extends HTMLElement {
     switch (name) {
       case 'wrapper-selector':
         this._wrapperSelector = newVal;
-        this.service = new DrawCanvasService(this._wrapperSelector, this.canvas, this.ctx);
         break;
       case 'width':
         this._width = parseInt(newVal, 10) || 0;
@@ -78,12 +77,7 @@ export class DrawCanvas extends HTMLElement {
   }
 
   public connectedCallback(): void {
-    this.style.display = 'block';
-    this.style.width = `${this._width}px`;
-    this.style.height = `${this._height}px`;
     const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    canvasElement.height = this._height;
-    canvasElement.width = this._width;
     this.appendChild(canvasElement);
     this.init();
   }
@@ -98,7 +92,16 @@ export class DrawCanvas extends HTMLElement {
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
     this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
     this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
-    
+
+    if (this._wrapperSelector) {
+      this.service = new DrawCanvasService(this._wrapperSelector, this.canvas, this.ctx);
+    } else {
+      // this.style.display = 'block';
+      this.style.width = `${this._width}px`;
+      this.style.height = `${this._height}px`;
+      this.canvas.height = this._height;
+      this.canvas.width = this._width;
+    }
   }
 
   /**
@@ -141,5 +144,8 @@ export class DrawCanvas extends HTMLElement {
   public clear(): void {
     this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.service) {
+      this.service.clear();
+    }
   }
 }

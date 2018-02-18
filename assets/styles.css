@@ -20,11 +20,11 @@ body {
     border-radius: 5px;
     border: 1px solid black;
     left: 50%;
-    overflow: hidden;
-}
-.canvas-container:hover {
     overflow: scroll;
 }
+/* .canvas-container:hover {
+    overflow: scroll;
+} */
 
 h1 {
     font-family: sans-serif;

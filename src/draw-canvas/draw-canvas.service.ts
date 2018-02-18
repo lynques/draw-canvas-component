@@ -10,6 +10,11 @@ export class DrawCanvasService {
     this.wrapper = document.querySelector(_wrapperSelector);
     this.canvas = _canvas;
     this.ctx = _ctx;
+
+    if (!this.wrapper.style.overflow) {
+      this.wrapper.style.overflow = 'hidden';
+    }
+
     requestAnimationFrame(this.resize.bind(this));
   }
 
@@ -19,7 +24,7 @@ export class DrawCanvasService {
     if (wrapperWidth && wrapperHeight &&
       (this.prevWrapperWidth - wrapperWidth < 0 || this.prevWrapperHeight - wrapperHeight < 0)) {
       let imageData: any;
-      if (this.canvas.width && this.canvas.height) {
+      if (this.canvas.width && this.canvas.height && this.prevWrapperWidth > 0) {
         imageData = this.ctx.getImageData(0, 0, this.prevWrapperWidth, this.prevWrapperHeight);
       }
       this.prevWrapperWidth = wrapperWidth;
@@ -31,5 +36,14 @@ export class DrawCanvasService {
       }
     }
     requestAnimationFrame(this.resize.bind(this));
+  }
+
+  clear(): void {
+    const wrapperWidth = this.wrapper.clientWidth;
+    const wrapperHeight = this.wrapper.clientHeight;
+    this.prevWrapperWidth = wrapperWidth;
+    this.prevWrapperHeight = wrapperHeight;
+    this.canvas.width = wrapperWidth;
+    this.canvas.height = wrapperHeight;
   }
 }
