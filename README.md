@@ -6,8 +6,9 @@
 [![NPM Version][npm-image]][npm-url]
 [![CircleCI](https://circleci.com/gh/lynques/draw-canvas-component/tree/master.svg?style=svg)](https://circleci.com/gh/lynques/draw-canvas/tree/master)
 
-Draw Canvas is a work-in-progress custom element to implement drawing functionality using the mouse 
-on an HTML Canvas element.
+Draw Canvas is a work-in-progress custom element that implements a resizeable HTML canvas with drawing functionality built in.
+Unlike the standard HTML5 canvas element, the draw-canvas component's size is determined by the css applied to the element, and the component can resize
+without losing any of the data drawn to the canvas. 
 
 > [Try Demo](https://lynques.github.io/draw-canvas-component/)
 
@@ -27,19 +28,19 @@ Register the draw-canvas custom element by pulling in the bundle.js script from 
 <script src="node_modules/draw-canvas-component/dist/bundle.js"></script>
 ```
 
-Add a draw-canvas tag to your markup, providing width and height attributes
-### Required Attributes
-- _width_ - Width in pixels of the drawing surface
-- _height_ - Height in pixels of the drawing surface
-
+Add a draw-canvas tag to your markup
 ```html
-<draw-canvas width="800" height="600"></draw-canvas>
+<draw-canvas></draw-canvas>
 ```
+### Attributes
+- _strokeColor_ - Color of draw stroke (default: #000)
+- _strokeWeight_ - Thickness of draw stroke (default: 1)
 
-### Other Attributes
-- _strokeColor_ - Color of draw stroke
-- _strokeWeight_ - Thickness of draw stroke
-
+> Providing attributes in tag is optional
+```html
+<draw-canvas stroke-color="#f00" stroke-weight="3"></draw-canvas>
+```
+> Can also be set using javascript.
 ```javascript
 var drawCanvas = document.querySelector('draw-canvas');
 drawCanvas.strokeColor = '#f00';  // draw in red
@@ -102,7 +103,7 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+5. Create a new Pull Request against `release` branch
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/draw-canvas-component.svg?style=flat-square
