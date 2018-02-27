@@ -1,17 +1,16 @@
+import { DrawCanvasService } from './draw-canvas.service';
+
 export class DrawCanvas extends HTMLElement {
 
-  private _height: number;
-  private _width: number;
   private _strokeWeight: number;
   private _strokeColor: string;
   private canvas: HTMLCanvasElement;
   private ctx: any;
   private drawing: boolean;
+  private service: DrawCanvasService;
 
   constructor() {
     super();
-    this._height = null;
-    this._width = null;
     this._strokeColor = '#000';
     this._strokeWeight = 1;
     this.canvas = null;
@@ -20,14 +19,6 @@ export class DrawCanvas extends HTMLElement {
   }
 
   /* set attribute properties */
-  set width(val: string) {
-    this.setAttribute('width', val);
-  }
-
-  set height(val: string) {
-    this.setAttribute('height', val);
-  }
-
   set strokeColor(val: string) {
     this.setAttribute('stroke-color', val);
   }
@@ -37,24 +28,12 @@ export class DrawCanvas extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['height', 'width', 'stroke-color', 'stroke-weight'];
+    return ['stroke-color', 'stroke-weight'];
   }
 
   /* custom element lifecycle methods */
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
-      case 'width':
-        this._width = parseInt(newVal, 10) || 0;
-        if (this.canvas) {
-          this.canvas.width = this._width;
-        }
-        break;
-      case 'height':
-        this._height = parseInt(newVal, 10) || 0;
-        if (this.canvas) {
-          this.canvas.height = this._height;
-        }
-        break;
       case 'stroke-color':
         this._strokeColor = newVal;
         break;
@@ -66,13 +45,12 @@ export class DrawCanvas extends HTMLElement {
   }
 
   public connectedCallback(): void {
-    this.style.display = 'block';
-    this.style.width = `${this._width}px`;
-    this.style.height = `${this._height}px`;
-    const canvasElement: HTMLCanvasElement = document.createElement('canvas');
-    canvasElement.height = this._height;
-    canvasElement.width = this._width;
-    this.appendChild(canvasElement);
+    const style = document.createElement('style');
+    const shadow = this.attachShadow({ mode: 'open' });
+    style.textContent = 'draw-canvas { display: block; overflow: hidden; }';
+    this.appendChild(style);
+    this.canvas = document.createElement('canvas');
+    shadow.appendChild(this.canvas);
     this.init();
   }
 
@@ -80,12 +58,14 @@ export class DrawCanvas extends HTMLElement {
    * Initialize canvas and 2d context
    */
   public init(): void {
-    this.canvas = this.querySelector('canvas');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
     this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
     this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    this.canvas.width = this.clientWidth;
+    this.canvas.height = this.clientHeight;
+    this.service = new DrawCanvasService(this, this.canvas, this.ctx);
   }
 
   /**
@@ -128,5 +108,8 @@ export class DrawCanvas extends HTMLElement {
   public clear(): void {
     this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    if (this.service) {
+      this.service.size();
+    }
   }
 }
