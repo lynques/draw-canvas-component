@@ -1,7 +1,6 @@
 "use strict";
 
 var drawCanvas;
-var container;
 
 var strokeWeight = function(val) {
   var currentWeight = parseInt(drawCanvas.getAttribute('stroke-weight')) || 1;
@@ -17,7 +16,6 @@ var changeColor = function(color) {
 };
 
 var init = function() {
-  container = document.querySelector('.canvas-container');
   drawCanvas = document.querySelector('draw-canvas');
   document.querySelector('.clear-button').addEventListener('click', clearCanvas);
   document.querySelector('.increase-stroke').addEventListener('click', function() {

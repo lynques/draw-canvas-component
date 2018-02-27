@@ -20,7 +20,7 @@ draw-canvas {
     border-radius: 5px;
     border: 1px solid black;
     left: 50%;
-    overflow: scroll;
+    overflow: scroll !important;
 }
 
 h1 {
