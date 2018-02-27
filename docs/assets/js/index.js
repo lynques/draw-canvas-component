@@ -8,7 +8,6 @@ var strokeWeight = function(val) {
 };
 
 var clearCanvas = function() {
-  console.log('clear');
   drawCanvas.clear();
 };
 
