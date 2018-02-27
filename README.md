@@ -53,16 +53,33 @@ drawCanvas.strokeWeight = 3;      // 3px stroke weight
 drawCanvas.clear();
 ```
 
+###Styling
+One great feature of the draw-canvas component is that the size of the component is determined by the css applied to the
+component and can dynamically resize without disrupting what is currently drawn to the canvas. This feature comes with 
+the following caveats:
+
+`display: block` and `overflow: hidden` are the only default styling rules applied to the component and at the moment can only be overridden using the `!important`
+css rule. Overriding `overflow ` will result in the expected behavior (enabling scrolling for example), however
+changing the `display` property will result in the component collapsing into a width/height of 0.
+
+> To enable scrolling
+```css
+draw-canvas {
+    overflow: scroll !important;
+}
+
+```
+
 ## Browser Support
 Custom elements are not supported by all browsers (https://caniuse.com/#feat=custom-elements). There are polyfills available if
 support for these browsers is required.
 
-Installing polyfill:
+> Installing polyfill:
 ```sh
 npm install @webcomponents/custom-elements --save
 ```
 
-Add polyfill as script tag:
+> Add polyfill as script tag:
 ```html
 <script src="node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
 ```
@@ -78,16 +95,16 @@ npm start
 Start script will watch for changes inside `src` folder, rebuild and hot reload the example project.
 To modify the example project, change `index.html` to your liking, example styles found in `assets/styles.css`.
 
-To run tests including linting
+> To run tests including linting
 
 ```sh
 npm run test:once
 ```
-or
+> or
 ```sh
 npm test
 ```
-to watch test files
+> to watch test files
 
 ## Meta
 
