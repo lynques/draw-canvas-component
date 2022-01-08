@@ -4,18 +4,20 @@ export class DrawCanvas extends HTMLElement {
 
   private _strokeWeight: number;
   private _strokeColor: string;
-  private canvas: HTMLCanvasElement;
-  private ctx: any;
+
   private drawing: boolean;
-  private service: DrawCanvasService;
+  private canvas?: HTMLCanvasElement;
+  private ctx?: any;
+  private service?: DrawCanvasService;
 
   constructor() {
     super();
     this._strokeColor = '#000';
     this._strokeWeight = 1;
-    this.canvas = null;
-    this.ctx = null;
     this.drawing = false;
+    this.canvas = undefined;
+    this.ctx = undefined;
+    this.service = undefined;
   }
 
   /* set attribute properties */
@@ -58,6 +60,10 @@ export class DrawCanvas extends HTMLElement {
    * Initialize canvas and 2d context
    */
   public init(): void {
+    if (!this.canvas) {
+      return;
+    }
+
     this.ctx = this.canvas.getContext('2d');
     this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
@@ -106,6 +112,9 @@ export class DrawCanvas extends HTMLElement {
    * Wipe the canvas
    */
   public clear(): void {
+    if (!this.ctx || !this.canvas) {
+      return;
+    }
     this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     if (this.service) {
