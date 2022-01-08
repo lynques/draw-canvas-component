@@ -20,7 +20,7 @@ export class DrawCanvas extends HTMLElement {
     this.service = undefined;
   }
 
-  /* set attribute properties */
+  /* set attribute values */
   set strokeColor(val: string) {
     this.setAttribute('stroke-color', val);
   }
@@ -33,7 +33,12 @@ export class DrawCanvas extends HTMLElement {
     return ['stroke-color', 'stroke-weight'];
   }
 
-  /* custom element lifecycle methods */
+  /**
+   * Custom element lifecycle method for changed attribute
+   * @param name changed attribute name
+   * @param oldVal original value
+   * @param newVal changed value
+   */
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
       case 'stroke-color':
@@ -46,6 +51,9 @@ export class DrawCanvas extends HTMLElement {
     }
   }
 
+  /**
+   * Custom element lifecycle method for when element is inserted into DOM
+   */
   public connectedCallback(): void {
     const style = document.createElement('style');
     const shadow = this.attachShadow({ mode: 'open' });

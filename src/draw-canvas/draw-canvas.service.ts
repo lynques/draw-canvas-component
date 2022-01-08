@@ -15,6 +15,9 @@ export class DrawCanvasService {
     requestAnimationFrame(this.resize.bind(this));
   }
 
+  /**
+   * Set canvas size based on component size
+   */
   public size(): void {
     this.prevWidth = this.component.clientWidth;
     this.prevHeight = this.component.clientHeight;
@@ -22,6 +25,10 @@ export class DrawCanvasService {
     this.canvas.height = this.prevHeight;
   }
 
+  /**
+   * Resize method used to save image data and repaint after resizing
+   * the canvas. Needed since changing size of a canvas will clear it out
+   */
   private resize(): void {
     if (this.prevWidth - this.component.clientWidth < 0 || this.prevHeight - this.component.clientHeight < 0) {
       let imageData: any;
