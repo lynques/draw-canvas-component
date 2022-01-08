@@ -10,10 +10,6 @@ Draw Canvas is a custom element that implements a resizeable HTML canvas with dr
 Unlike the standard HTML5 canvas element, the draw-canvas component's size is determined by the css applied to the element, and the component can resize
 without losing any of the data drawn to the canvas.
 
-> [Try Demo](https://lynques.github.io/draw-canvas-component/)
-
-[//]: # (image will go here)
-
 ## Installation
 
 npm:
@@ -68,7 +64,7 @@ npm install
 npm start
 ```
 Start script will watch for changes inside `src` folder, rebuild and hot reload the example project.
-To modify the example project, change `index.html` to your liking, example styles found in `assets/styles.css`.
+To modify the example project, change `index.html` to your liking, example styles found in `assets/styles/styles.css`, and some example javascript interactions in `assets/js/index.js`.
 
 > To run tests including linting
 

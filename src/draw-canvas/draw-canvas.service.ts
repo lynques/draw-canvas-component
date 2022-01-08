@@ -3,15 +3,15 @@ import { DrawCanvas } from './draw-canvas.component';
 export class DrawCanvasService {
 
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
   private prevWidth = 0;
   private prevHeight = 0;
   private component: DrawCanvas;
+  private ctx?: CanvasRenderingContext2D;
 
   constructor(
     _component: DrawCanvas,
     _canvas: HTMLCanvasElement,
-    _ctx: CanvasRenderingContext2D
+    _ctx?: CanvasRenderingContext2D
   ) {
     this.component = _component;
     this.canvas = _canvas;
@@ -37,11 +37,11 @@ export class DrawCanvasService {
     if (this.prevWidth - this.component.clientWidth < 0 || this.prevHeight - this.component.clientHeight < 0) {
       let imageData: ImageData | undefined = undefined;
       if (this.prevWidth > 0) {
-        imageData = this.ctx.getImageData(0, 0, this.prevWidth, this.prevHeight);
+        imageData = this.ctx?.getImageData(0, 0, this.prevWidth, this.prevHeight);
       }
       this.size();
       if (imageData) {
-        this.ctx.putImageData(imageData, 0, 0);
+        this.ctx?.putImageData(imageData, 0, 0);
       }
     }
     requestAnimationFrame(this.resize.bind(this));

@@ -5,6 +5,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist',
   },
   module: {
     rules: [
@@ -17,5 +18,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+  },
+  devServer: {
+    static: {
+      directory: __dirname,
+    },
+    compress: true,
+    port: 9000,
+    watchFiles: ['src/', './index.html', 'assets/'],
   },
 };
