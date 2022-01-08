@@ -7,7 +7,7 @@ export class DrawCanvas extends HTMLElement {
 
   private drawing: boolean;
   private canvas?: HTMLCanvasElement;
-  private ctx?: any;
+  private ctx?: CanvasRenderingContext2D;
   private service?: DrawCanvasService;
 
   constructor() {
@@ -41,13 +41,15 @@ export class DrawCanvas extends HTMLElement {
    */
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
-      case 'stroke-color':
+      case 'stroke-color': {
         this._strokeColor = newVal;
         break;
-      case 'stroke-weight':
+      }
+      case 'stroke-weight': {
         const weight = parseInt(newVal, 10) || 1;
         this._strokeWeight = weight < 1 ? 1 : weight;
         break;
+      }
     }
   }
 
@@ -72,7 +74,7 @@ export class DrawCanvas extends HTMLElement {
       return;
     }
 
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d') || undefined;
     this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
     this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
     this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
@@ -87,6 +89,9 @@ export class DrawCanvas extends HTMLElement {
    * @param {MouseEvent} e the mouse event object
    */
   public handleMouseDown(e: MouseEvent): void {
+    if (!this.ctx) {
+      return;
+    }
     const posX = e.offsetX;
     const posY = e.offsetY;
     this.drawing = true;
@@ -101,6 +106,9 @@ export class DrawCanvas extends HTMLElement {
    * @param {MouseEvent} e the mouse event object
    */
   public handleMouseMove(e: MouseEvent): void {
+    if (!this.ctx) {
+      return;
+    }
     if (this.drawing) {
       const posX = e.offsetX;
       const posY = e.offsetY;
