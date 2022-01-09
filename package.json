@@ -13,7 +13,7 @@
     "lint": "eslint .",
     "start": "webpack serve --mode development",
     "test": "npm run lint && npm run unit",
-    "unit": "jest --collect-coverage"
+    "unit": "jest"
   },
   "keywords": [
     "custom element",
@@ -25,6 +25,7 @@
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "canvas": "^2.8.0",
     "eslint": "^8.6.0",
     "jest": "^27.4.7",
     "ts-jest": "^27.1.2",

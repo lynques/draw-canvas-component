@@ -49,8 +49,17 @@ drawCanvas.strokeWeight = 3;      // 3px stroke weight
 drawCanvas.clear();
 ```
 
-### Styling Caveat
-The default display value for the component is `display: block` and can only be overridden using `!important`, but the component will collapse if given a value of `display: inline`.
+### Styling Caveats
+There are two inline style rules applied to the element that can only be overridden using `!important`.
+
+The default display value for the component is `display: block`. The component will collapse if given a value of `display: inline`.
+
+By default the element will have no scrolling enabled, however scrolling can be enabled through css:
+```css
+draw-canvas {
+  overflow: scroll !important;
+}
+```
 
 ## Browser Support
 Custom elements are not supported by all browsers (https://caniuse.com/#feat=custom-elements). There are polyfills available if

@@ -1,5 +1,5 @@
 {
-  "exclude": ["node_modules", "**/*.spec.ts", "dist", "test", "templates"],
+  "exclude": ["node_modules", "**/*.spec.ts", "dist", "__tests__", "templates"],
   "compilerOptions": {
       "outDir": "./dist/",
       "sourceMap": true,
