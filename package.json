@@ -2,17 +2,18 @@
   "name": "draw-canvas-component",
   "repository": "https://github.com/lynques/draw-canvas-component",
   "version": "2.0.0",
-  "description": "Custom Webcomponent with built in canvas drawing functionality",
+  "description": "Custom Webcomponent for canvas drawing functionality.",
   "main": "src/index.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "rm -rf dist/ && webpack --mode production",
+    "prepublishOnly": "npm run test && npm run build",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "start": "webpack serve --mode development",
-    "test": "npm run lint && npm run unit",
+    "test": "npm run unit",
     "unit": "jest"
   },
   "keywords": [

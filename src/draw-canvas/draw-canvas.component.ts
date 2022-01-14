@@ -2,33 +2,25 @@ import { DrawCanvasService } from './draw-canvas.service';
 
 export class DrawCanvas extends HTMLElement {
 
-  private _strokeWeight: number;
-  private _strokeColor: string;
+  private service?: DrawCanvasService = undefined;
 
-  private drawing: boolean;
-  private canvas?: HTMLCanvasElement;
-  private ctx?: CanvasRenderingContext2D;
-  private service?: DrawCanvasService;
-
-  constructor() {
-    super();
-    this._strokeColor = '#000';
-    this._strokeWeight = 1;
-    this.drawing = false;
-    this.canvas = undefined;
-    this.ctx = undefined;
-    this.service = undefined;
-  }
-
-  /* set attribute values */
+  /**
+   * Setter for stroke color attribute
+   */
   set strokeColor(val: string) {
     this.setAttribute('stroke-color', val);
   }
 
+  /**
+   * Setter for stroke weight attribute
+   */
   set strokeWeight(val: string) {
     this.setAttribute('stroke-weight', val);
   }
 
+  /**
+   * List of attributes that are changeable on this component
+   */
   static get observedAttributes() {
     return ['stroke-color', 'stroke-weight'];
   }
@@ -42,12 +34,11 @@ export class DrawCanvas extends HTMLElement {
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
       case 'stroke-color': {
-        this._strokeColor = newVal;
+        this.service?.updateStrokeColor(newVal);
         break;
       }
       case 'stroke-weight': {
-        const weight = parseInt(newVal, 10) || 1;
-        this._strokeWeight = weight < 1 ? 1 : weight;
+        this.service?.updateStrokeWeight(newVal);
         break;
       }
     }
@@ -59,82 +50,37 @@ export class DrawCanvas extends HTMLElement {
   public connectedCallback(): void {
     const style = document.createElement('style');
     const shadow = this.attachShadow({ mode: 'open' });
+
     style.textContent = 'draw-canvas { display: block; overflow: hidden; }';
     this.appendChild(style);
-    this.canvas = document.createElement('canvas');
-    shadow.appendChild(this.canvas);
-    this.init();
+
+    const canvas = document.createElement('canvas');
+    shadow.appendChild(canvas);
+
+    this.init(canvas);
   }
 
   /**
    * Initialize canvas and 2d context
    */
-  public init(): void {
-    if (!this.canvas) {
+  public init(canvas: HTMLCanvasElement): void {
+    if (!canvas) {
       return;
     }
 
-    this.ctx = this.canvas.getContext('2d') || undefined;
-    this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
-    this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
-    this.canvas.addEventListener('mouseout', this.handleMouseUp.bind(this));
-    this.canvas.addEventListener('mouseup', this.handleMouseUp.bind(this));
-    this.canvas.width = this.clientWidth;
-    this.canvas.height = this.clientHeight;
-    this.service = new DrawCanvasService(this, this.canvas, this.ctx);
+    this.service = new DrawCanvasService(this, canvas);
+    canvas.addEventListener('mousedown', this.service.handleMouseDown);
+    canvas.addEventListener('mousemove', this.service.handleMouseMove);
+    canvas.addEventListener('mouseout', this.service.handleMouseUp);
+    canvas.addEventListener('mouseup', this.service.handleMouseUp);
+    canvas.width = this.clientWidth;
+    canvas.height = this.clientHeight;
   }
 
   /**
-   * Handle mousedown events on canvas element
-   * @param {MouseEvent} e the mouse event object
-   */
-  public handleMouseDown(e: MouseEvent): void {
-    if (!this.ctx) {
-      return;
-    }
-    const posX = e.offsetX;
-    const posY = e.offsetY;
-    this.drawing = true;
-    this.ctx.strokeStyle = this._strokeColor;
-    this.ctx.lineWidth = this._strokeWeight;
-    this.ctx.beginPath();
-    this.ctx.moveTo(posX, posY);
-  }
-
-  /**
-   * Handle mousemove events on canvas element - does the drawing part
-   * @param {MouseEvent} e the mouse event object
-   */
-  public handleMouseMove(e: MouseEvent): void {
-    if (!this.ctx) {
-      return;
-    }
-    if (this.drawing) {
-      const posX = e.offsetX;
-      const posY = e.offsetY;
-      this.ctx.lineTo(posX, posY);
-      this.ctx.stroke();
-    }
-  }
-
-  /**
-   * Handle mouseup events on canvas element - stop drawing
-   */
-  public handleMouseUp(): void {
-    this.drawing = false;
-  }
-
-  /**
-   * Wipe the canvas
+   * Exposes canvas clearing functionality as public method on the component
    */
   public clear(): void {
-    if (!this.ctx || !this.canvas) {
-      return;
-    }
-    this.ctx.fillStyle = '#fff';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    if (this.service) {
-      this.service.size();
-    }
+    this.service?.clear();
   }
 }
