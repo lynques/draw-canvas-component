@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "start": "webpack serve --mode development",
     "test": "npm run unit",
-    "unit": "echo \"No tests implemented yet\""
+    "unit": "tsc && wtr"
   },
   "keywords": [
     "custom element",
@@ -23,8 +23,11 @@
   "author": "Aaron Romel",
   "license": "MIT",
   "devDependencies": {
+    "@open-wc/testing": "^3.0.3",
+    "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "@web/test-runner": "^0.13.25",
     "canvas": "^2.8.0",
     "eslint": "^8.6.0",
     "ts-loader": "^9.2.6",
