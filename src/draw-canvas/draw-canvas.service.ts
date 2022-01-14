@@ -1,26 +1,29 @@
 import { DrawCanvas } from './draw-canvas.component';
 
 export class DrawCanvasService {
-
   private drawing = false;
-  private prevWidth = 0;
   private prevHeight = 0;
-  private strokeColor: string = '#000';
-  private strokeWeight: number = 1;
+  private prevWidth = 0;
+  private strokeColor = '#000';
+  private strokeWeight = 1;
 
-  private component: DrawCanvas;
+  private component?: DrawCanvas;
   private canvas?: HTMLCanvasElement;
   private ctx?: CanvasRenderingContext2D;
 
-  constructor(
-    _component: DrawCanvas,
-    _canvas?: HTMLCanvasElement,
-  ) {
+  init(_component: DrawCanvas, _canvas: HTMLCanvasElement): void {
     this.component = _component;
     this.canvas = _canvas;
     this.ctx = this.canvas?.getContext('2d') || undefined;
 
-    requestAnimationFrame(this.resize);
+    this.canvas.addEventListener('mousedown', this.handleMouseDown);
+    this.canvas.addEventListener('mousemove', this.handleMouseMove);
+    this.canvas.addEventListener('mouseout', this.handleMouseUp);
+    this.canvas.addEventListener('mouseup', this.handleMouseUp);
+    this.canvas.width = this.component.clientWidth;
+    this.canvas.height = this.component.clientHeight;
+
+    requestAnimationFrame(this.handleResize);
   }
 
   /**
@@ -45,6 +48,9 @@ export class DrawCanvasService {
    * @returns true if the component has resized since last animation frame
    */
   hasComponentChangedSize(): boolean {
+    if (!this.component) {
+      return false;
+    }
     return (
       this.prevWidth - this.component.clientWidth < 0 ||
       this.prevHeight - this.component.clientHeight < 0
@@ -55,20 +61,20 @@ export class DrawCanvasService {
    * Set canvas size based on component size
    */
   public size(): void {
-    if (!this.canvas) {
+    if (!this.canvas || !this.component) {
       return;
     }
-    this.prevWidth = this.component.clientWidth;
-    this.prevHeight = this.component.clientHeight;
+    this.prevWidth = this.component.clientWidth || this.prevWidth;
+    this.prevHeight = this.component.clientHeight || this.prevHeight;
     this.canvas.width = this.prevWidth;
     this.canvas.height = this.prevHeight;
   }
 
   /**
-   * Resize method used to save image data and repaint after resizing
-   * the canvas. Needed since changing size of a canvas will clear it out
+   * Save image data and repaint after resizing the canvas
+   * Needed since changing size of a canvas will clear it out
    */
-  private resize = (): void => {
+  private handleResize = (): void => {
     if (this.hasComponentChangedSize()) {
       let imageData: ImageData | undefined = undefined;
       if (this.prevWidth > 0) {
@@ -79,7 +85,7 @@ export class DrawCanvasService {
         this.ctx?.putImageData(imageData, 0, 0);
       }
     }
-    requestAnimationFrame(this.resize);
+    requestAnimationFrame(this.handleResize);
   }
 
 

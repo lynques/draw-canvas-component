@@ -2,7 +2,7 @@ import { DrawCanvasService } from './draw-canvas.service';
 
 export class DrawCanvas extends HTMLElement {
 
-  private service?: DrawCanvasService = undefined;
+  private service: DrawCanvasService = new DrawCanvasService();
 
   /**
    * Setter for stroke color attribute
@@ -20,8 +20,9 @@ export class DrawCanvas extends HTMLElement {
 
   /**
    * List of attributes that are changeable on this component
+   * @returns the observed attributes as a list of strings
    */
-  static get observedAttributes() {
+  static get observedAttributes(): string[] {
     return ['stroke-color', 'stroke-weight'];
   }
 
@@ -34,11 +35,11 @@ export class DrawCanvas extends HTMLElement {
   public attributeChangedCallback(name: string, oldVal: string, newVal: string): void {
     switch (name) {
       case 'stroke-color': {
-        this.service?.updateStrokeColor(newVal);
+        this.service.updateStrokeColor(newVal);
         break;
       }
       case 'stroke-weight': {
-        this.service?.updateStrokeWeight(newVal);
+        this.service.updateStrokeWeight(newVal);
         break;
       }
     }
@@ -57,30 +58,13 @@ export class DrawCanvas extends HTMLElement {
     const canvas = document.createElement('canvas');
     shadow.appendChild(canvas);
 
-    this.init(canvas);
-  }
-
-  /**
-   * Initialize canvas and 2d context
-   */
-  public init(canvas: HTMLCanvasElement): void {
-    if (!canvas) {
-      return;
-    }
-
-    this.service = new DrawCanvasService(this, canvas);
-    canvas.addEventListener('mousedown', this.service.handleMouseDown);
-    canvas.addEventListener('mousemove', this.service.handleMouseMove);
-    canvas.addEventListener('mouseout', this.service.handleMouseUp);
-    canvas.addEventListener('mouseup', this.service.handleMouseUp);
-    canvas.width = this.clientWidth;
-    canvas.height = this.clientHeight;
+    this.service.init(this, canvas);
   }
 
   /**
    * Exposes canvas clearing functionality as public method on the component
    */
   public clear(): void {
-    this.service?.clear();
+    this.service.clear();
   }
 }
