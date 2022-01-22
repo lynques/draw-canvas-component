@@ -1,10 +1,7 @@
 # Draw Canvas Component
 > An HTML Custom Element for drawing.
 
-[//]: # ([![Build Status][travis-image]][travis-url])
-[//]: # ([![Downloads Stats][npm-downloads]][npm-url])
 [![NPM Version][npm-image]][npm-url]
-[![CircleCI](https://circleci.com/gh/lynques/draw-canvas-component/tree/master.svg?style=svg)](https://circleci.com/gh/lynques/draw-canvas/tree/main)
 
 Draw Canvas is a custom element that implements a resizeable HTML canvas with drawing functionality built in.
 Unlike the standard HTML5 canvas element, the draw-canvas component's size is determined by the css applied to the element, and the component can resize
