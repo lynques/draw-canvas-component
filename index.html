@@ -4,14 +4,14 @@
 <head>
   <meta charset="utf-8">
   <title>Draw Canvas Component Demo</title>
-  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 <body>
   <h1>Draw in the box</h1>
   <div class="container">
-    <draw-canvas></draw-canvas>
+    <draw-canvas stroke-weight="5" stroke-color="#f00"></draw-canvas>
     <div class="canvas-controls">
-      <input type="button" class="clear-button" value="CLEAR" />    
+      <input type="button" class="clear-button" value="CLEAR" />
       <input type="button" class="increase-stroke" value="STROKE +" />
       <input type="button" class="decrease-stroke" value="STROKE -" />
       <input type="button" class="red-button" />
@@ -20,8 +20,8 @@
       <input type="button" class="black-button" />
     </div>
   </div>
+  <script src="https://unpkg.com/@webcomponents/custom-elements"></script>
   <script src="assets/js/index.js"></script>
-  <script src="assets/js/custom-elements.min.js"></script>
   <script src="dist/bundle.js"></script>
 </body>
 </html>

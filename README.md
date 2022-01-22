@@ -1,18 +1,11 @@
 # Draw Canvas Component
 > An HTML Custom Element for drawing.
 
-[//]: # ([![Build Status][travis-image]][travis-url])
-[//]: # ([![Downloads Stats][npm-downloads]][npm-url])
 [![NPM Version][npm-image]][npm-url]
-[![CircleCI](https://circleci.com/gh/lynques/draw-canvas-component/tree/master.svg?style=svg)](https://circleci.com/gh/lynques/draw-canvas/tree/master)
 
-Draw Canvas is a work-in-progress custom element that implements a resizeable HTML canvas with drawing functionality built in.
+Draw Canvas is a custom element that implements a resizeable HTML canvas with drawing functionality built in.
 Unlike the standard HTML5 canvas element, the draw-canvas component's size is determined by the css applied to the element, and the component can resize
-without losing any of the data drawn to the canvas. 
-
-> [Try Demo](https://lynques.github.io/draw-canvas-component/)
-
-[//]: # (image will go here)
+without losing any of the data drawn to the canvas.
 
 ## Installation
 
@@ -41,7 +34,7 @@ Add a draw-canvas tag to your markup
 <draw-canvas stroke-color="#f00" stroke-weight="3"></draw-canvas>
 ```
 > Can also be set using javascript.
-```javascript
+```js
 var drawCanvas = document.querySelector('draw-canvas');
 drawCanvas.strokeColor = '#f00';  // draw in red
 drawCanvas.strokeWeight = 3;      // 3px stroke weight
@@ -49,41 +42,25 @@ drawCanvas.strokeWeight = 3;      // 3px stroke weight
 
 ### Helper Methods
 - _clear_ - Clears canvas content
-```javascript
+```js
 drawCanvas.clear();
 ```
 
-###Styling
-One great feature of the draw-canvas component is that the size of the component is determined by the css applied to the
-component and can dynamically resize without disrupting what is currently drawn to the canvas. This feature comes with 
-the following caveats:
+### Styling Caveats
+There are two inline style rules applied to the element that can only be overridden using `!important`.
 
-`display: block` and `overflow: hidden` are the only default styling rules applied to the component and at the moment can only be overridden using the `!important`
-css rule. Overriding `overflow ` will result in the expected behavior (enabling scrolling for example), however
-changing the `display` property will result in the component collapsing into a width/height of 0.
+The default display value for the component is `display: block`. The component will collapse if given a value of `display: inline`.
 
-> To enable scrolling
+By default the element will have no scrolling enabled, however scrolling can be enabled through css:
 ```css
 draw-canvas {
-    overflow: scroll !important;
+  overflow: scroll !important;
 }
-
 ```
 
 ## Browser Support
 Custom elements are not supported by all browsers (https://caniuse.com/#feat=custom-elements). There are polyfills available if
-support for these browsers is required.
-
-> Installing polyfill:
-```sh
-npm install @webcomponents/custom-elements --save
-```
-
-> Add polyfill as script tag:
-```html
-<script src="node_modules/@webcomponents/custom-elements/custom-elements.min.js"></script>
-```
-
+support for these browsers is required. Follow the instructions [here](https://www.npmjs.com/package/@webcomponents/custom-elements) for installation and usage of polyfills.
 ## Development setup
 
 To set up for development, clone this repository.
@@ -93,18 +70,13 @@ npm install
 npm start
 ```
 Start script will watch for changes inside `src` folder, rebuild and hot reload the example project.
-To modify the example project, change `index.html` to your liking, example styles found in `assets/styles.css`.
+To modify the example project, change `index.html` to your liking, example styles found in `assets/styles/styles.css`, and some example javascript interactions in `assets/js/index.js`.
 
 > To run tests including linting
 
 ```sh
-npm run test:once
+npm run test
 ```
-> or
-```sh
-npm test
-```
-> to watch test files
 
 ## Meta
 
@@ -120,7 +92,7 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request against `release` branch
+5. Create a new Pull Request against `main` branch
 
 <!-- Markdown link & img dfn's -->
 [npm-image]: https://img.shields.io/npm/v/draw-canvas-component.svg?style=flat-square
