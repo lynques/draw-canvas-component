@@ -1,7 +1,7 @@
 {
   "name": "draw-canvas-component",
   "repository": "https://github.com/lynques/draw-canvas-component",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Custom Webcomponent for canvas drawing functionality.",
   "main": "src/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "start": "webpack serve --mode development",
     "test": "npm run unit",
-    "unit": "tsc && wtr"
+    "unit": "echo \"TODO unit tests\""
   },
   "keywords": [
     "custom element",
@@ -23,12 +23,8 @@
   "author": "Aaron Romel",
   "license": "MIT",
   "devDependencies": {
-    "@open-wc/testing": "^3.0.3",
-    "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
-    "@web/test-runner": "^0.13.25",
-    "canvas": "^2.8.0",
     "eslint": "^8.6.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
