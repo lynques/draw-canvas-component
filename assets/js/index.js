@@ -13,11 +13,21 @@ var clearCanvas = function() {
 
 var changeColor = function(color) {
   drawCanvas.strokeColor = color;
+  drawCanvas.fillColor = color;
 };
+
+var toggleBucketTool = function(){
+  if(drawCanvas.isFilling){
+    drawCanvas.isFilling = false;
+  }else{
+    drawCanvas.isFilling = true;
+  }
+}
 
 var init = function() {
   drawCanvas = document.querySelector('draw-canvas');
   document.querySelector('.clear-button').addEventListener('click', clearCanvas);
+  document.querySelector('.color-bucket-button').addEventListener('click', toggleBucketTool);
   document.querySelector('.increase-stroke').addEventListener('click', function() {
     strokeWeight(1);
   });

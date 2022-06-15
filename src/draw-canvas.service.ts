@@ -2,10 +2,13 @@ import { DrawCanvas } from './draw-canvas.component';
 
 export class DrawCanvasService {
   private drawing = false;
+  private filling = false;
   private prevHeight = 0;
   private prevWidth = 0;
   private strokeColor = '#000';
+  private fillColor = '#000';
   private strokeWeight = 1;
+  private points: Point[] = [];
 
   private component?: DrawCanvas;
   private canvas?: HTMLCanvasElement;
@@ -32,6 +35,23 @@ export class DrawCanvasService {
    */
   public updateStrokeColor(color: string): void {
     this.strokeColor = color;
+  }
+
+  /**
+   * Respond fill color attribute updates
+   * @param color The color set for attribute value
+   */
+  public updateFillColor(color: string): void {
+    this.fillColor = color;
+  }
+
+  /**
+   * Respond is filling attribute updates
+   * @param boolean event object
+   * @returns void
+   */
+  public updateFillingStatus = (boolean:string): void => {
+    this.filling = boolean.toLowerCase() == 'true';
   }
 
   /**
@@ -88,7 +108,6 @@ export class DrawCanvasService {
     requestAnimationFrame(this.handleResize);
   }
 
-
   /**
    * Handle mousedown events on canvas element
    * @param {MouseEvent} e the mouse event object
@@ -99,11 +118,16 @@ export class DrawCanvasService {
     }
     const posX = e.offsetX;
     const posY = e.offsetY;
-    this.drawing = true;
-    this.ctx.strokeStyle = this.strokeColor;
-    this.ctx.lineWidth = this.strokeWeight;
-    this.ctx.beginPath();
-    this.ctx.moveTo(posX, posY);
+    if (this.filling) {
+      this.handleFill({ x: posX, y: posY })
+    } else {
+      this.drawing = true;
+      this.ctx.strokeStyle = this.strokeColor;
+      this.ctx.lineWidth = this.strokeWeight;
+      this.ctx.beginPath();
+      this.ctx.moveTo(posX, posY);
+      this.points.push({ x: posX, y: posY })
+    }
   }
 
   /**
@@ -118,6 +142,7 @@ export class DrawCanvasService {
       const posX = e.offsetX;
       const posY = e.offsetY;
       this.ctx.lineTo(posX, posY);
+      this.points.push({ x: posX, y: posY })
       this.ctx.stroke();
     }
   }
@@ -130,14 +155,119 @@ export class DrawCanvasService {
   }
 
   /**
- * Clear the canvas by filling with background color
+ * Clear the canvas by filling with transparent color
  */
   public clear(): void {
     if (!this.ctx || !this.canvas) {
       return;
     }
-    this.ctx.fillStyle = '#fff';
+    this.ctx.fillStyle = '#00000000';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.size();
   }
+
+  private handleFill(point: Point) {
+    debugger;
+    var colorLayer = this.ctx!.getImageData(0, 0, this.canvas!.width, this.canvas!.height);
+    const selectedPixel = this.ctx!.getImageData(point.x,point.y,1,1).data;
+    const selectedColor = {r:selectedPixel[0],g:selectedPixel[1],b:selectedPixel[2],a:selectedPixel[3]};
+    const pixelStack = [point];
+
+    while (pixelStack.length) {
+      var newPos, x, y, pixelPos, reachLeft, reachRight;
+      newPos = pixelStack.pop();
+      x = newPos!.x;
+      y = newPos!.y;
+
+      pixelPos = (y * this.canvas!.width + x) * 4;
+      while (y-- >= 0 && matchStartColor(pixelPos,selectedColor)) {
+        pixelPos -= this.canvas!.width * 4;
+      }
+      pixelPos += this.canvas!.width * 4;
+      ++y;
+      reachLeft = false;
+      reachRight = false;
+      while (y++ < this.canvas!.height - 1 && matchStartColor(pixelPos,selectedColor)) {
+        colorPixel(pixelPos,this.fillColor);
+
+        if (x > 0) {
+          if (matchStartColor(pixelPos - 4,selectedColor)) {
+            if (!reachLeft) {
+              pixelStack.push({ x: x - 1, y: y });
+              reachLeft = true;
+            }
+          }
+          else if (reachLeft) {
+            reachLeft = false;
+          }
+        }
+
+        if (x < this.canvas!.width - 1) {
+          if (matchStartColor(pixelPos + 4,selectedColor)) {
+            if (!reachRight) {
+              pixelStack.push({ x: x + 1, y: y });
+              reachRight = true;
+            }
+          }
+          else if (reachRight) {
+            reachRight = false;
+          }
+        }
+
+        pixelPos += this.canvas!.width * 4;
+      }
+    }
+    this.ctx!.putImageData(colorLayer, 0, 0);
+
+    function matchStartColor(pixelPos: number,startColor:IRGBA) {
+      var r = colorLayer.data[pixelPos];
+      var g = colorLayer.data[pixelPos + 1];
+      var b = colorLayer.data[pixelPos + 2];
+
+      return (r == startColor.r && g == startColor.g && b == startColor.b);
+    }
+
+    function colorPixel(pixelPos: number,color:string) {
+      const rgba = hexToRgbA(color);
+      colorLayer.data[pixelPos] = rgba.r;
+      colorLayer.data[pixelPos + 1] = rgba.g;
+      colorLayer.data[pixelPos + 2] = rgba.b;
+      colorLayer.data[pixelPos + 3] = rgba.a;
+    }
+
+    function hexToRgbA(hex: string): IRGBA {
+      var c;
+      if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+        c = hex.substring(1).split('');
+        if(c.length == 3){
+          c.splice(0,0,c[0]);
+          c.splice(2,0,c[2]);
+          c.splice(4,0,c[4]);
+        }
+        var rgb:IRGBA = {
+          r:Number('0x'+c[0]+c[1]),
+          g:Number('0x'+c[2]+c[3]),
+          b:Number('0x'+c[4]+c[5]),
+          a:255
+        };
+        if (c.length==8) {
+          rgb.a = Number('0x'+c[6]+c[7]);
+        }
+        return rgb;
+      }
+      throw new Error('Bad Hex');
+    }
+  }
+}
+
+interface IRGBA {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+}
+
+class Point {
+  public x: number = 0;
+  public y: number = 0;
 }
