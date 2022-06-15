@@ -8,7 +8,6 @@ export class DrawCanvasService {
   private strokeColor = '#000';
   private fillColor = '#000';
   private strokeWeight = 1;
-  private points: Point[] = [];
 
   private component?: DrawCanvas;
   private canvas?: HTMLCanvasElement;
@@ -126,7 +125,6 @@ export class DrawCanvasService {
       this.ctx.lineWidth = this.strokeWeight;
       this.ctx.beginPath();
       this.ctx.moveTo(posX, posY);
-      this.points.push({ x: posX, y: posY })
     }
   }
 
@@ -142,7 +140,6 @@ export class DrawCanvasService {
       const posX = e.offsetX;
       const posY = e.offsetY;
       this.ctx.lineTo(posX, posY);
-      this.points.push({ x: posX, y: posY })
       this.ctx.stroke();
     }
   }
@@ -167,7 +164,6 @@ export class DrawCanvasService {
   }
 
   private handleFill(point: Point) {
-    debugger;
     var colorLayer = this.ctx!.getImageData(0, 0, this.canvas!.width, this.canvas!.height);
     const selectedPixel = this.ctx!.getImageData(point.x,point.y,1,1).data;
     const selectedColor = {r:selectedPixel[0],g:selectedPixel[1],b:selectedPixel[2],a:selectedPixel[3]};
@@ -213,7 +209,6 @@ export class DrawCanvasService {
             reachRight = false;
           }
         }
-
         pixelPos += this.canvas!.width * 4;
       }
     }
@@ -223,8 +218,8 @@ export class DrawCanvasService {
       var r = colorLayer.data[pixelPos];
       var g = colorLayer.data[pixelPos + 1];
       var b = colorLayer.data[pixelPos + 2];
-
-      return (r == startColor.r && g == startColor.g && b == startColor.b);
+      var a = colorLayer.data[pixelPos + 3]
+      return (r == startColor.r && g == startColor.g && b == startColor.b && a == startColor.a);
     }
 
     function colorPixel(pixelPos: number,color:string) {
