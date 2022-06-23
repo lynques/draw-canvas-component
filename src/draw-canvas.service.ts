@@ -257,7 +257,7 @@ export class DrawCanvasService {
         }
         return rgb;
       } else if (/^rgb\((\d+).*?(\d+).*?(\d+)\)$/.test(color)) {
-        const obj = /^rgb\((\d+).*?(\d+).*?(\d+)\)$/.exec("rgb(0, 255, 0)");
+        const obj = /^rgb\((\d+).*?(\d+).*?(\d+)\)$/.exec(color);
         if (obj != null) {
           var rgb: IRGBA = {
             r: Number(obj![1]),
