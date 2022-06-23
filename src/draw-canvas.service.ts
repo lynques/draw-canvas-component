@@ -169,6 +169,10 @@ export class DrawCanvasService {
     const selectedColor = { r: selectedPixel[0], g: selectedPixel[1], b: selectedPixel[2], a: selectedPixel[3] };
     const pixelStack = [point];
 
+    if (selectedColor == ParseRgbA(this.fillColor)) {
+      return;
+    }
+
     while (pixelStack.length) {
       var newPos, x, y, pixelPos, reachLeft, reachRight;
       newPos = pixelStack.pop();
