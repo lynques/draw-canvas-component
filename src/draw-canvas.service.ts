@@ -49,7 +49,7 @@ export class DrawCanvasService {
    * @param boolean event object
    * @returns void
    */
-  public updateFillingStatus = (boolean:string): void => {
+  public updateFillingStatus = (boolean: string): void => {
     this.filling = boolean.toLowerCase() == 'true';
   }
 
@@ -165,8 +165,8 @@ export class DrawCanvasService {
 
   private handleFill(point: Point) {
     var colorLayer = this.ctx!.getImageData(0, 0, this.canvas!.width, this.canvas!.height);
-    const selectedPixel = this.ctx!.getImageData(point.x,point.y,1,1).data;
-    const selectedColor = {r:selectedPixel[0],g:selectedPixel[1],b:selectedPixel[2],a:selectedPixel[3]};
+    const selectedPixel = this.ctx!.getImageData(point.x, point.y, 1, 1).data;
+    const selectedColor = { r: selectedPixel[0], g: selectedPixel[1], b: selectedPixel[2], a: selectedPixel[3] };
     const pixelStack = [point];
 
     while (pixelStack.length) {
@@ -176,18 +176,18 @@ export class DrawCanvasService {
       y = newPos!.y;
 
       pixelPos = (y * this.canvas!.width + x) * 4;
-      while (y-- >= 0 && matchStartColor(pixelPos,selectedColor)) {
+      while (y-- >= 0 && matchStartColor(pixelPos, selectedColor)) {
         pixelPos -= this.canvas!.width * 4;
       }
       pixelPos += this.canvas!.width * 4;
       ++y;
       reachLeft = false;
       reachRight = false;
-      while (y++ < this.canvas!.height - 1 && matchStartColor(pixelPos,selectedColor)) {
-        colorPixel(pixelPos,this.fillColor);
+      while (y++ < this.canvas!.height - 1 && matchStartColor(pixelPos, selectedColor)) {
+        colorPixel(pixelPos, this.fillColor);
 
         if (x > 0) {
-          if (matchStartColor(pixelPos - 4,selectedColor)) {
+          if (matchStartColor(pixelPos - 4, selectedColor)) {
             if (!reachLeft) {
               pixelStack.push({ x: x - 1, y: y });
               reachLeft = true;
@@ -199,7 +199,7 @@ export class DrawCanvasService {
         }
 
         if (x < this.canvas!.width - 1) {
-          if (matchStartColor(pixelPos + 4,selectedColor)) {
+          if (matchStartColor(pixelPos + 4, selectedColor)) {
             if (!reachRight) {
               pixelStack.push({ x: x + 1, y: y });
               reachRight = true;
@@ -214,7 +214,7 @@ export class DrawCanvasService {
     }
     this.ctx!.putImageData(colorLayer, 0, 0);
 
-    function matchStartColor(pixelPos: number,startColor:IRGBA) {
+    function matchStartColor(pixelPos: number, startColor: IRGBA) {
       var r = colorLayer.data[pixelPos];
       var g = colorLayer.data[pixelPos + 1];
       var b = colorLayer.data[pixelPos + 2];
@@ -222,35 +222,46 @@ export class DrawCanvasService {
       return (r == startColor.r && g == startColor.g && b == startColor.b && a == startColor.a);
     }
 
-    function colorPixel(pixelPos: number,color:string) {
-      const rgba = hexToRgbA(color);
+    function colorPixel(pixelPos: number, color: string) {
+      const rgba = ParseRgbA(color);
       colorLayer.data[pixelPos] = rgba.r;
       colorLayer.data[pixelPos + 1] = rgba.g;
       colorLayer.data[pixelPos + 2] = rgba.b;
       colorLayer.data[pixelPos + 3] = rgba.a;
     }
 
-    function hexToRgbA(hex: string): IRGBA {
+    function ParseRgbA(color: string): IRGBA {
       var c;
-      if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
-        c = hex.substring(1).split('');
-        if(c.length == 3){
-          c.splice(0,0,c[0]);
-          c.splice(2,0,c[2]);
-          c.splice(4,0,c[4]);
+      if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(color)) {
+        c = color.substring(1).split('');
+        if (c.length == 3) {
+          c.splice(0, 0, c[0]);
+          c.splice(2, 0, c[2]);
+          c.splice(4, 0, c[4]);
         }
-        var rgb:IRGBA = {
-          r:Number('0x'+c[0]+c[1]),
-          g:Number('0x'+c[2]+c[3]),
-          b:Number('0x'+c[4]+c[5]),
-          a:255
+        var rgb: IRGBA = {
+          r: Number('0x' + c[0] + c[1]),
+          g: Number('0x' + c[2] + c[3]),
+          b: Number('0x' + c[4] + c[5]),
+          a: 255
         };
-        if (c.length==8) {
-          rgb.a = Number('0x'+c[6]+c[7]);
+        if (c.length == 8) {
+          rgb.a = Number('0x' + c[6] + c[7]);
         }
         return rgb;
+      } else if (/^rgb\((\d+).*?(\d+).*?(\d+)\)$/.test(color)) {
+        const obj = /^rgb\((\d+).*?(\d+).*?(\d+)\)$/.exec("rgb(0, 255, 0)");
+        if (obj != null) {
+          var rgb: IRGBA = {
+            r: Number(obj![1]),
+            g: Number(obj![2]),
+            b: Number(obj![3]),
+            a: 255
+          };
+          return rgb;
+        }
       }
-      throw new Error('Bad Hex');
+      throw new Error('Bad Color Value');
     }
   }
 }
