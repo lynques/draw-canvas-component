@@ -168,8 +168,11 @@ export class DrawCanvasService {
     const selectedPixel = this.ctx!.getImageData(point.x, point.y, 1, 1).data;
     const selectedColor = { r: selectedPixel[0], g: selectedPixel[1], b: selectedPixel[2], a: selectedPixel[3] };
     const pixelStack = [point];
-
-    if (selectedColor == ParseRgbA(this.fillColor)) {
+    const parsedFillColor = ParseRgbA(this.fillColor);
+    if (selectedColor.a == parsedFillColor.a &&
+      selectedColor.r == parsedFillColor.r &&
+      selectedColor.g == parsedFillColor.g &&
+      selectedColor.b == parsedFillColor.b) {
       return;
     }
 
