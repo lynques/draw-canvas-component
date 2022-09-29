@@ -12,6 +12,27 @@ export class DrawCanvas extends HTMLElement {
   }
 
   /**
+   * Setter for fill color attribute
+   */
+  set fillColor(val: string) {
+    this.setAttribute('fill-color', val);
+  }
+
+  /**
+   * Setter for is filling attribute
+   */
+  set isFilling(val: boolean) {
+    this.setAttribute('is-filling', val?'true':'false');
+  }
+
+  /**
+   * Getter for is filling attribute
+   */
+  get isFilling() {
+    return this.getAttribute('is-filling')=='true';
+  }
+
+  /**
    * Setter for stroke weight attribute
    */
   set strokeWeight(val: string) {
@@ -23,7 +44,7 @@ export class DrawCanvas extends HTMLElement {
    * @returns the observed attributes as a list of strings
    */
   static get observedAttributes(): string[] {
-    return ['stroke-color', 'stroke-weight'];
+    return ['stroke-color', 'fill-color', 'stroke-weight', 'is-filling'];
   }
 
   /**
@@ -38,8 +59,16 @@ export class DrawCanvas extends HTMLElement {
         this.service.updateStrokeColor(newVal);
         break;
       }
+      case 'fill-color': {
+        this.service.updateFillColor(newVal);
+        break;
+      }
       case 'stroke-weight': {
         this.service.updateStrokeWeight(newVal);
+        break;
+      }
+      case 'is-filling': {
+        this.service.updateFillingStatus(newVal);
         break;
       }
     }
