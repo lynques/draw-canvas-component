@@ -1,7 +1,7 @@
 {
   "name": "draw-canvas-component",
   "repository": "https://github.com/lynques/draw-canvas-component",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Custom Webcomponent for resizable canvas with built-ing drawing functionality.",
   "main": "src/index.js",
   "files": [
